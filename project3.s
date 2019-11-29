@@ -125,5 +125,16 @@ jal SubgramB
 	li $t6,0 #resets my space/tabs checker back to 0
 	j start
 
+SubgramB:
+	beq $t3,0,finish #check how many characters are left to convert 
+	addi $t3,$t3,-1 #decreases the amount of characters left to convert
+	lb $s0, ($t4) # loads the bit that will be converted
+	
+	addi $t4,$t4,1	# moves to the next element in the array
+	j SubgramC 
+con:
+	
+	sw $s1,0($sp)	#stores the converted num
+	j SubgramB
 
 
