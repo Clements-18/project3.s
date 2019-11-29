@@ -85,14 +85,14 @@ invalidloop:
 substring:
 	mul $t6,$t6,$t7 #if there was a space before a this valid character it will change $t6 to a positive num
 next:
-	bgt $t6,0,insubstring #checks to see if there were any spaces or tabs in between valid characters
-	bge $t3,5,insubstring #checks to see if there are more than 4 for characters
-	addi $t1,$t1,1 #check track of the amount substring 	
-	sub $sp, $sp,4 # creates space in the stack
-	sw $t5, 0($sp) #stores what was in $t5 into the stack
-	move $t5,$t0  # store the pointer to the bit after the comma
-	lw $t4,0($sp) #loads what was in the stack at that position into $t4
-	li $s1,0 #sets $s1 to 0 
+	bgt $t6,0,insubstring      #checks to see if there were any spaces or tabs in between valid characters
+	bge $t3,5,insubstring      #checks to see if there are more than 4 for characters
+	addi $t1,$t1,1             #check track of the amount substring 	
+	sub $sp, $sp,4 		   # creates space in the stack
+	sw $t5, 0($sp) 		   #stores what was in $t5 into the stack
+	move $t5,$t0  		   # store the pointer to the bit after the comma
+	lw $t4,0($sp)		   #loads what was in the stack at that position into $t4
+	li $s1,0 		   #sets $s1 to 0 
 	
 
 
