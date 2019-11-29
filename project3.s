@@ -42,23 +42,23 @@ start:
 loop:
 	
 	
-	lb $s0, ($t0) # loads the bit that $t0 is pointing to
-	beq $s0, 0,next# check if the bit is null
-	beq $s0, 10, next #checks if the bit is a new line 	
-	addi $t0,$t0,1 #move the $t0 to the next element of the array	
+	lb $s0, ($t0)    # loads the bit that $t0 is pointing to
+	beq $s0, 0,next  # check if the bit is null
+	beq $s0, 10, next # checks if the bit is a new line 	
+	addi $t0,$t0,1   #move the $t0 to the next element of the array	
 	beq $s0, 44, substring #check if bit is a comma
 	
 
 check:
-	bgt $t6,0,invalidloop # checks to see if there were any spaces or tabs in between valid characters
-	beq $s0, 9,  gap # checks to see if there is a tab characters
-	beq $s0, 32, gap # checks to see if there is a space character
+	bgt $t6,0,invalidloop    # checks to see if there were any spaces or tabs in between valid characters
+	beq $s0, 9,  gap         # checks to see if there is a tab characters
+	beq $s0, 32, gap         # checks to see if there is a space character
 	ble $s0, 47, invalidloop # checks to see if the ascii less than 43
 “””””
 	ble $s0, 64, invalidloop # checks to see if the ascii less than 64
-	ble $s0, 84, vaild	# checks to see if the ascii less than 84( CAP )
+	ble $s0, 84, vaild	 # checks to see if the ascii less than 84( CAP )
 	ble $s0, 96, invalidloop # checks to see if the ascii less than 96
-	ble $s0, 116, vaild 	# checks to see if the ascii less than 116(lowercase letter)
+	ble $s0, 116, vaild 	 # checks to see if the ascii less than 116(lowercase letter)
 	bge $s0, 117, invalidloop # checks to see if the ascii greater than 116
 
 
@@ -66,5 +66,22 @@ check:
 gap:
 	addi $t6,$t6,-1 #keeps track of spaces
 	j loop
+vaild:
+	addi $t3, $t3,1   #keeps track of the amount of valid characters in substring
+	mul $t6,$t6,$t7  #if there was a space before a this valid character it will change $t6 to a positive num
+	j loop #jumps to the beginning of loop	
+
+invalidloop:
+	
+	lb $s0, ($t0) # loads the bit that $t0 is pointing to
+	beq $s0, 0, insubstring# check if the bit is null
+	beq $s0, 10, insubstring #checks if the bit is a new line 	
+	addi $t0,$t0,1 #move the $t0 to the next element of the array	
+	beq $s0, 44, insubstring #check if bit is a comma
+	
+	
+	j invalidloop #jumps to the beginning of loop
+
+
 
 
