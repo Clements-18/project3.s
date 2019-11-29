@@ -138,3 +138,46 @@ con:
 	j SubgramB
 
 
+
+
+SubgramC:
+	move $t8, $t3	#stores the amount of characters left to use as an exponent
+	li $t9, 1	# $t9 means 25 to a certain power and set equal to 1
+	ble $s0, 57, num #sorts the bit to the appropriate function
+	ble $s0, 84, up
+	ble $s0, 116, low
+num:
+	
+	sub $s0, $s0, 43	#converts integer bits 
+	beq $t3, 0, combine	# if there are no characters left the exponent is 0
+	li $t9, 25		
+	j exp
+lower:
+	
+	sub $s0, $s0, 87 #converts lowercase bits
+upper:
+	
+	sub $s0, $s0, 55 #converts uppercase bits
+	beq $t3, 0, combine # if there are no characters left that means the exponent is 0
+	li $t9, 25
+	j exp
+beq $t3, 0, combine # if there are no characters left, the exponent is 0
+	li $t9, 25
+	j exp
+exp:
+	#raises my base to a certain exponent by multiplying itself repeatedly
+	ble $t8, 1, combine	#if the exponent is 1 there is no need to multiply the base by itself
+	mul $t9, $t9, 25 	# multiplying  base by itself to simulate raising the num to a power
+	addi $t8, $t8, -1	# decreasing the exponent
+	j exp
+combine:
+	mul $s2, $t9, $s0	#multiplied the converted bit and my base raised to a power
+	
+	add $s1,$s1,$s2		# adding the converted nums together 
+	j con
+
+
+
+finish : jr $ra	#jumps back to substring
+
+
