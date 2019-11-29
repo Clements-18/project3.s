@@ -35,4 +35,36 @@ start:
 	beq $s0, 32, skip #checks if the bit is a space character
 	move $t5, $t0 #store the first non-space/tab character
 	j loop # jumps to the beginning of the loop function
+	
+	kip:
+	addi $t0,$t0,1 #move the $t0 to the next element of the array
+	j start 
+loop:
+	
+	
+	lb $s0, ($t0) # loads the bit that $t0 is pointing to
+	beq $s0, 0,next# check if the bit is null
+	beq $s0, 10, next #checks if the bit is a new line 	
+	addi $t0,$t0,1 #move the $t0 to the next element of the array	
+	beq $s0, 44, substring #check if bit is a comma
+	
+
+check:
+	bgt $t6,0,invalidloop # checks to see if there were any spaces or tabs in between valid characters
+	beq $s0, 9,  gap # checks to see if there is a tab characters
+	beq $s0, 32, gap # checks to see if there is a space character
+	ble $s0, 47, invalidloop # checks to see if the ascii less than 43
+“””””
+	ble $s0, 64, invalidloop # checks to see if the ascii less than 64
+	ble $s0, 84, vaild	# checks to see if the ascii less than 84( CAP )
+	ble $s0, 96, invalidloop # checks to see if the ascii less than 96
+	ble $s0, 116, vaild 	# checks to see if the ascii less than 116(lowercase letter)
+	bge $s0, 117, invalidloop # checks to see if the ascii greater than 116
+
+
+
+gap:
+	addi $t6,$t6,-1 #keeps track of spaces
+	j loop
+
 
